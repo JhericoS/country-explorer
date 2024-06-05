@@ -45,24 +45,35 @@ const Sidebar = () => {
           isOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-200 ease-in-out md:translate-x-0 sidebar`}
       >
+        <div className="mb-8">
+          <img
+            src="/images/logo.png"
+            alt="Logo"
+            className="w-full rounded-lg"
+          />
+          <h2 className="text-2xl font-bold mb-2 text-center">
+            Country Explorer
+          </h2>
+        </div>
+        <hr className="border-gray-600 mb-4" />
         <nav className="space-y-4">
           <Link
             href="/"
-            className="block px-4 py-2 rounded hover:bg-gray-700"
+            className="block px-4 py-2 rounded hover:bg-gray-500"
             onClick={handleLinkClick}
           >
             Home
           </Link>
           <Link
             href="/vista-1"
-            className="block px-4 py-2 rounded hover:bg-gray-700"
+            className="block px-4 py-2 rounded hover:bg-gray-500"
             onClick={handleLinkClick}
           >
             Vista 1
           </Link>
           <Link
             href="/vista-2"
-            className="block px-4 py-2 rounded hover:bg-gray-700"
+            className="block px-4 py-2 rounded hover:bg-gray-500"
             onClick={handleLinkClick}
           >
             Vista 2
@@ -80,12 +91,12 @@ const Sidebar = () => {
         className={`fixed md:hidden z-20 inset-x-0 top-0 bg-gray-800 text-white h-16 p-3`}
       >
         <button
-          className="fixed md:hidden bg-blue-500 text-white p-2 rounded z-30 m-auto menu-button"
+          className="fixed md:hidden text-white rounded p-1 z-30 m-auto menu-button"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Open menu"
           onKeyDown={handleKeyDown}
         >
-          <MdMenu className="w-6 h-6" />
+          <MdMenu className="w-8 h-8" />
         </button>
       </div>
     </>

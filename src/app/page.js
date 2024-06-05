@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import CountryCard from "@/components/country-card";
 import SearchBar from "@/components/search-bar";
 import { gql, useSuspenseQuery } from "@apollo/client";
@@ -49,6 +49,7 @@ function Home() {
   const [isInfoOpen, setIsInfoOpen] = useState(false);
   const [selectedCountryImage, setSelectedCountryImage] = useState(null);
   const [selectedCountryFlag, setSelectedCountryFlag] = useState(null);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const filteredCountries = data?.countries?.filter((country) => {
@@ -66,6 +67,19 @@ function Home() {
 
     setVisibleCountries(filteredCountries?.slice(0, visibleCount));
   }, [data, searchTerm, selectedContinents, visibleCount]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleLoadMore = () => {
     setVisibleCount((prevCount) => prevCount + 12);
@@ -94,17 +108,20 @@ function Home() {
   return (
     <div>
       <div className="flex mb-4 mx-auto items-center justify-center">
-        <div className="mr-4 relative">
+        <div className="mr-4 relative" ref={dropdownRef}>
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="border py-2 px-4 rounded-md w-full max-w-xs"
+            className="py-2 px-4 rounded-lg w-full max-w-xs bg-gray-800 text-white"
           >
             Filtrar
           </button>
           {dropdownOpen && (
-            <div className="absolute mt-2 bg-white border rounded-md shadow-lg z-10 w-44">
+            <div className="absolute mt-2 bg-white border rounded-lg shadow-lg shadow-gray-800 z-10 w-44">
               {data?.continents?.map((continent) => (
-                <label key={continent.code} className="block px-4 py-2 flex items-center">
+                <label
+                  key={continent.code}
+                  className="px-4 py-2 flex items-center"
+                >
                   <input
                     type="checkbox"
                     value={continent.code}
@@ -120,7 +137,7 @@ function Home() {
         </div>
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 w-full max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 w-full max-w-7xl mx-auto">
         {visibleCountries.map((country) => (
           <CountryCard
             key={country.code}
@@ -144,7 +161,7 @@ function Home() {
           return matchesSearchTerm && matchesContinents;
         }).length && (
         <button
-          className="mt-4 p-2 border rounded flex mx-auto"
+          className="mt-4 p-2 border rounded-lg flex mx-auto bg-gray-800 text-white"
           onClick={handleLoadMore}
         >
           Ver más

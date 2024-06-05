@@ -10,7 +10,7 @@ const SearchBar = ({ searchTerm, setSearchTerm }) => {
         placeholder="Buscar país..."
         value={searchTerm}
         onChange={handleSearch}
-        className="border py-2 px-4 rounded-md w-full mx-auto flex"
+        className="border border-gray-400 py-2 px-4 rounded-lg w-full mx-auto flex"
       />
     </div>
   );

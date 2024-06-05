@@ -2,10 +2,11 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import PropTypes from "prop-types";
 
 const UNSPLASH_ACCESS_KEY = "DkiSn52NtYDu5S9gWLIzE4OuRlz673kKcpurWlEg8Tc";
 
-const defaultImageUrl = "/public/images/not_found.png";
+const defaultImageUrl = "/images/not_found.png";
 
 const CountryCard = ({ country, onCardClick, onImageLoad }) => {
   const { name, code, continent } = country;
@@ -68,7 +69,7 @@ const CountryCard = ({ country, onCardClick, onImageLoad }) => {
   return (
     <div
       ref={ref}
-      className="border p-4 rounded-md"
+      className="border border-gray-400 p-4 rounded-xl cursor-pointer bg-white shadow shadow-md hover:shadow-xl transform transition-transform duration-300 hover:scale-110"
       onClick={() => [onImageLoad(image, flagUrl), onCardClick(country)]}
     >
       {image && (
@@ -78,7 +79,7 @@ const CountryCard = ({ country, onCardClick, onImageLoad }) => {
             alt={`${name}`}
             width={300}
             height={200}
-            className="w-full h-32 object-cover rounded-md mb-4"
+            className="w-full h-32 object-cover rounded-md mb-4 border-gray-400"
           />
           {flagUrl && (
             <Image
@@ -86,7 +87,7 @@ const CountryCard = ({ country, onCardClick, onImageLoad }) => {
               alt={`${name} flag`}
               width={50}
               height={50}
-              className="absolute bottom-2 right-2 border rounded-md"
+              className="absolute bottom-2 right-2 border  rounded-md shadow-sm shadow-black"
               style={{ zIndex: 1 }}
             />
           )}
@@ -96,6 +97,18 @@ const CountryCard = ({ country, onCardClick, onImageLoad }) => {
       <p>{continent.name}</p>
     </div>
   );
+};
+
+CountryCard.propTypes = {
+  country: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    code: PropTypes.string.isRequired,
+    continent: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+  onCardClick: PropTypes.func.isRequired,
+  onImageLoad: PropTypes.func.isRequired,
 };
 
 export default CountryCard;
