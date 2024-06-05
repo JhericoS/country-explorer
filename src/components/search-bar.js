@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 const SearchBar = ({ onSearch }) => {
+    const [filtroNombre, setFiltroNombre] = useState("");
     const [query, setQuery] = useState('');
 
     const handleChange = (e) => {

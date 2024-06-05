@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ApolloWrapper } from "@/lib/apollo-wrapper";
+import Sidebar from "../components/sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -9,12 +10,17 @@ export const metadata = {
   description: "Created by Jherico Solier",
 };
 
-export default function RootLayout({ children }) {
+function RootLayout({ children }) {
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={inter.className}>
-        <ApolloWrapper>{children}</ApolloWrapper>
+        <Sidebar />
+        <main className="p-4 mt-16 md:mt-0 md:ml-64">
+          <ApolloWrapper>{children}</ApolloWrapper>
+        </main>
       </body>
     </html>
   );
 }
+
+export default RootLayout;

@@ -39,16 +39,16 @@ function Home() {
   const { data } = useSuspenseQuery(query);
 
   return (
-    <main>
+    <div>
       <div>
         <SearchBar onSearch={() => {}} />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {data.countries.map((country) => (
           <CountryCard key={country.code} country={country} />
         ))}
       </div>
-    </main>
+    </div>
   );
 }
 
