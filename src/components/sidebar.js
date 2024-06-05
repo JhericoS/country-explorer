@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { MdMenu } from "react-icons/md";
+import Image from "next/image";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,9 +47,11 @@ const Sidebar = () => {
         } transition-transform duration-200 ease-in-out md:translate-x-0 sidebar`}
       >
         <div className="mb-8">
-          <img
+          <Image
             src="/images/logo.png"
             alt="Logo"
+            width={200}
+            height={200}
             className="w-full rounded-lg"
           />
           <h2 className="text-2xl font-bold mb-2 text-center">
