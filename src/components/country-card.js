@@ -5,11 +5,12 @@ import { useInView } from "react-intersection-observer";
 
 const UNSPLASH_ACCESS_KEY = "DkiSn52NtYDu5S9gWLIzE4OuRlz673kKcpurWlEg8Tc";
 
-const defaultImageUrl = "/public/images/not_found.jpg";
+const defaultImageUrl = "/public/images/not_found.png";
 
-const CountryCard = ({ country }) => {
-  const { name, capital, languages, currencies } = country;
+const CountryCard = ({ country, onCardClick, onImageLoad }) => {
+  const { name, code, continent } = country;
   const [image, setImage] = useState(null);
+  const [flagUrl, setFlagUrl] = useState(null);
   const [error, setError] = useState(null);
   const { ref, inView } = useInView();
   const [imageCache, setImageCache] = useState({});
@@ -49,27 +50,50 @@ const CountryCard = ({ country }) => {
     }
   }, [name, inView, image, error, imageCache]);
 
+  useEffect(() => {
+    const fetchFlagUrl = async () => {
+      try {
+        const response = await fetch(
+          `https://flagcdn.com/h80/${code.toLowerCase()}.png`
+        );
+        setFlagUrl(response.url);
+      } catch (error) {
+        console.error("Error fetching flag image:", error);
+      }
+    };
+
+    fetchFlagUrl();
+  }, [code]);
+
   return (
-    <div ref={ref} className="border p-4 rounded-md">
+    <div
+      ref={ref}
+      className="border p-4 rounded-md"
+      onClick={() => [onImageLoad(image, flagUrl), onCardClick(country)]}
+    >
       {image && (
-        <Image
-          src={image}
-          alt={`${name}`}
-          width={300}
-          height={200}
-          className="w-full h-32 object-cover rounded-md mb-4"
-        />
+        <div className="relative">
+          <Image
+            src={image}
+            alt={`${name}`}
+            width={300}
+            height={200}
+            className="w-full h-32 object-cover rounded-md mb-4"
+          />
+          {flagUrl && (
+            <Image
+              src={flagUrl}
+              alt={`${name} flag`}
+              width={50}
+              height={50}
+              className="absolute bottom-2 right-2 border rounded-md"
+              style={{ zIndex: 1 }}
+            />
+          )}
+        </div>
       )}
       <h2 className="text-lg font-bold">{name}</h2>
-      <p>
-        <strong>Capital:</strong> {capital}
-      </p>
-      <p>
-        <strong>Idioma:</strong> {languages.map((lang) => lang.name).join(", ")}
-      </p>
-      <p>
-        <strong>Moneda:</strong> {currencies.join(", ")}
-      </p>
+      <p>{continent.name}</p>
     </div>
   );
 };

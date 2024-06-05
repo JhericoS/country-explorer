@@ -4,13 +4,13 @@ const SearchBar = ({ searchTerm, setSearchTerm }) => {
   };
 
   return (
-    <div className="mb-4 w-full">
+    <div className="w-full max-w-lg">
       <input
         type="text"
         placeholder="Buscar país..."
         value={searchTerm}
         onChange={handleSearch}
-        className="border py-2 px-4 rounded-md w-full max-w-xl mx-auto flex"
+        className="border py-2 px-4 rounded-md w-full mx-auto flex"
       />
     </div>
   );
