@@ -1,5 +1,5 @@
 "use client";
-
+import { useState } from "react";
 import CountryCard from "@/components/country-card";
 import SearchBar from "@/components/search-bar";
 import { gql, useSuspenseQuery } from "@apollo/client";
@@ -32,19 +32,27 @@ const query = gql`
     }
   }
 `;
+
 function Home() {
   loadDevMessages();
   loadErrorMessages();
 
   const { data } = useSuspenseQuery(query);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredCountries = data.countries.filter((country) => {
+    const searchTermLower = searchTerm.toLowerCase();
+    return (
+      country.name?.toLowerCase().startsWith(searchTermLower) ||
+      country.native?.toLowerCase().startsWith(searchTermLower)
+    );
+  });
 
   return (
     <div>
-      <div>
-        <SearchBar onSearch={() => {}} />
-      </div>
+      <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {data.countries.map((country) => (
+        {filteredCountries.map((country) => (
           <CountryCard key={country.code} country={country} />
         ))}
       </div>

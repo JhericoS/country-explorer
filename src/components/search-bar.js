@@ -1,32 +1,19 @@
-import { useState } from 'react';
+const SearchBar = ({ searchTerm, setSearchTerm }) => {
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
-const SearchBar = ({ onSearch }) => {
-    const [filtroNombre, setFiltroNombre] = useState("");
-    const [query, setQuery] = useState('');
-
-    const handleChange = (e) => {
-        setQuery(e.target.value);
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        onSearch(query);
-    };
-
-    return (
-        <form onSubmit={handleSubmit} className="mb-4">
-            <input
-                type="text"
-                placeholder="Buscar país..."
-                value={query}
-                onChange={handleChange}
-                className="border p-2 rounded-md w-full"
-            />
-            <button type="submit" className="bg-blue-500 text-white p-2 rounded-md mt-2">
-                Buscar
-            </button>
-        </form>
-    );
+  return (
+    <div className="mb-4 w-full">
+      <input
+        type="text"
+        placeholder="Buscar país..."
+        value={searchTerm}
+        onChange={handleSearch}
+        className="border py-2 px-4 rounded-md w-full max-w-xl mx-auto flex"
+      />
+    </div>
+  );
 };
 
 export default SearchBar;
